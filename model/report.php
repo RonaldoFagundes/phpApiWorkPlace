@@ -87,12 +87,10 @@ class DataReport extends Conn
           $sql->execute();
 
           if ($sql->rowCount() > 0) {
-
                $last_number = $sql->fetch();
                $next_number = $last_number['number_rpt'] + 1;
                $report->setMsg($next_number);
                return true;
-
           } else {
                $report->setMsg("not found");
                return false;
@@ -113,16 +111,11 @@ class DataReport extends Conn
           $sql->execute();
 
           if ($sql->rowCount() > 0) {
-
                $status = $sql->fetch();
-
                $report->setMsg($status['status_rpt']);
-
                return true;
-
           } else {
                $report->setMsg("not found");
-
                return false;
           }
      }
@@ -137,11 +130,8 @@ class DataReport extends Conn
           $sql->bindValue(":id", $report->getId());
           $sql->execute();
 
-
           if ($sql->rowCount() > 0) {
-
                $list_reports = array();
-
                while ($reports = $sql->fetchAll(PDO::FETCH_ASSOC)) {
                     $list_reports = $reports;
                }
@@ -165,11 +155,8 @@ class DataReport extends Conn
           $sql->bindValue(":id_fk", $report->getFkId());
           $sql->execute();
 
-
           if ($sql->rowCount() > 0) {
-
                $list_reports = array();
-
                while ($reports = $sql->fetchAll(PDO::FETCH_ASSOC)) {
                     $list_reports = $reports;
                }
@@ -217,7 +204,6 @@ class DataReport extends Conn
 
      public function deleteReport(ControllerReport $report)
      {
-
           $query = "DELETE FROM tb_reports WHERE number_rpt = :number ";
 
           $sql = $this->pdo->prepare($query);

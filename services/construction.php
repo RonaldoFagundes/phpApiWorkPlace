@@ -51,7 +51,6 @@ class serviceConstruction
 
         $c_constr->setId($id);
 
-
         if ($m_constr->deleteConstructions($c_constr)) {
             http_response_code(200);
             $result = json_encode($c_constr->getMsg());

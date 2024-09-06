@@ -28,11 +28,9 @@ class DataConstruction extends Conn
           $sql->bindValue(":addr", $constructions->getAddress());
 
           if ($sql->execute()) {
-
                $constructions->setMsg(" Construtora " . $constructions->getName() . " cadastrada com sucesso ");
                return true;
           } else {
-
                $constructions->setMsg("error insertConstruction");
                return false;
           }
@@ -68,7 +66,7 @@ class DataConstruction extends Conn
           $query = "DELETE FROM tb_constructions WHERE id_cts= :id ";
           $sql = $this->pdo->prepare($query);
 
-          $sql->bindValue(":id", $$constructions->getId());
+          $sql->bindValue(":id", $constructions->getId());
           $sql->execute();
 
           if ($sql->rowCount() > 0) {
