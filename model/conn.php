@@ -11,10 +11,10 @@ class Conn
 
   public function pdo()
   {
-    $this->host = "";
-    $this->user = "";
-    $this->password = "";
-    $this->db = "";
+    $this->host = "localhost";
+    $this->user = "rfactory";
+    $this->password = "faC*rF_71";
+    $this->db = "db_rf_ideia";
     
     try {
       $pdo = new PDO(
