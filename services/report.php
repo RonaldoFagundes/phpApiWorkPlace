@@ -5,12 +5,21 @@ include_once 'model/report.php';
 
 class serviceReport
 {
-    function __construct(){}
+
+    private $c_report ;
+    private $m_report ;
+
+    function __construct(){
+        $this->c_report = new ControllerReport;
+        $this->m_report = new DataReport; 
+    }
+
+
 
     public function sendDataInsert($number, $page, $date, $title, $desc, $status, $img_one, $img_two, $img_three, $img_four, $id)
     {
-        $c_report = new ControllerReport;
-        $m_report = new DataReport;
+       // $c_report = new ControllerReport;
+       // $m_report = new DataReport;
         
         $c_report->setNumber($number);
         $c_report->setPage($page);
@@ -34,6 +43,8 @@ class serviceReport
         return $result;
     }
 
+
+
     public function getListReport($id_cons)
     {
         $c_report = new ControllerReport;
@@ -50,6 +61,9 @@ class serviceReport
         return $result;
     }
 
+
+
+
     public function getReportNumber($id_cons)
     {
         $c_report = new ControllerReport;
@@ -65,20 +79,21 @@ class serviceReport
         return $result;
     }
 
+
+
     public function getReportStatus($id_cons)
-    {
-        $c_report = new ControllerReport;
-        $m_report = new DataReport;
-        $c_report->setFkId($id_cons);
-        if ($m_report->selectStatus($c_report)) {
-            http_response_code(200);
-            $result = json_encode($c_report->getMsg());
-        } else {
-            http_response_code(200);
-            $result = json_encode($c_report->getMsg());
-        }
-        return $result;
+    {      
+         $this->c_report->setFkId($id_cons);
+         $this->m_report->selectStatus($this->c_report);
+         http_response_code(200);
+         return  json_encode($this->c_report->getMsg());     
     }
+
+
+
+
+
+
 
     public function getReportById($id_cons)
     {
@@ -96,6 +111,9 @@ class serviceReport
         return $result;
     }
 
+
+
+
     public function getReportByNumber($number , $id_fk)
     {
         $c_report = new ControllerReport;
@@ -112,6 +130,9 @@ class serviceReport
         }
         return $result;
     }
+
+
+
 
     public function sendDataUpdate($date, $title, $desc, $status, $img_one, $img_two, $img_three, $img_four, $id)
     {
@@ -136,6 +157,10 @@ class serviceReport
         return $result;
     }
 
+
+
+
+
     public function getResultDelete($number)
     {
         $c_report = new ControllerReport;
@@ -150,5 +175,7 @@ class serviceReport
         }
         return $result;
     }
+
+
 
 }

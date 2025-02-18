@@ -14,10 +14,10 @@ class DataTag extends Conn
           $this->pdo = $this->conn->pdo();
      }
 
-     public function insertTags(ControllerTags $tags)
+     public function insertTags(ControllerTags $tags):bool
      {
           $query = " INSERT INTO tb_tags (status_tag, desc_tag, img_tag)
-                                       VALUES( :status, :desc, :img) ";
+                                       VALUES(:status, :desc, :img) ";
           $sql = $this->pdo->prepare($query);
           $sql->bindValue(":status", $tags->getStatus());
           $sql->bindValue(":desc", $tags->getDesc());
@@ -27,12 +27,15 @@ class DataTag extends Conn
                $tags->setMsg("Tag cadastrada com sucesso");
                return true;
           } else {
-               $tags->setMsg("error  insertTags");
+               $tags->setMsg("error");
                return false;
           }
      }
 
-     public function listTags(ControllerTags $tags)
+
+
+
+     public function listTags(ControllerTags $tags):bool
      {
           $query = "SELECT * FROM tb_tags";
           $sql = $this->pdo->query($query);
@@ -44,14 +47,16 @@ class DataTag extends Conn
                while ($tag = $sql->fetchAll(PDO::FETCH_ASSOC)) {
                     $list_tags = $tag;
                }
-               $tags->setListTags($list_tags);
-               
+               $tags->setListTags($list_tags);               
                return true;
           } else {
                $tags->setMsg("not found");
                return false;
           }
      }
+
+
+
 
 
      public function selectTagImg(ControllerTags $tags)
@@ -78,6 +83,8 @@ class DataTag extends Conn
      }
 
 
+
+     
 
      public function deleteTag(ControllerTags $tags)
      {

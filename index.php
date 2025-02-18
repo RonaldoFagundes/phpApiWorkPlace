@@ -6,11 +6,13 @@ header("Access-Control-Allow-Methods: GET, POST, PATCH, PUT, DELETE, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type, Accept, Authorization, X-Requested-With, X-Auth-Token, Origin, Application");
 header("Content-Type: application/json; charset=utf-8");
 
+
 include_once 'services/construction.php';
 include_once 'services/report.php';
 include_once 'services/company.php';
 include_once 'services/standard.php';
 include_once 'services/tag.php';
+
 
 $s_constr = new serviceConstruction();
 $s_report = new serviceReport();
@@ -21,7 +23,36 @@ $s_tag = new serviceTag();
 $response_json = file_get_contents("php://input");
 $dados = json_decode($response_json, true);
 
-if ($_GET['action'] === 'cad_contruction') {
+
+if ($_GET['action'] === 'cad_company') {
+  
+  $array_company = [
+    $dados['company']['name'],  
+    $dados['company']['address'],  
+    $dados['company']['postal'],
+    $dados['company']['state'],
+    $dados['company']['contry'],
+    $dados['company']['phone'],
+    $dados['company']['web'],
+    $dados['company']['base_64_logo'],
+    $dados['company']['base_64_icon']    
+  ];
+  
+  //echo json_encode($array_company);
+// echo json_encode ($s_company->sendDataCompany($array_company));
+ echo json_encode ($s_company->sendDataCompany($dados));
+
+} else if ($_GET['action'] === 'cad_tags') { 
+ 
+  $array_tags = [
+    $dados['tags']['status'],  
+    $dados['tags']['desc'], 
+    $dados['tags']['base_64_img']     
+  ];
+ 
+ echo ($s_tag->sendDataTag($dados));
+
+} else if ($_GET['action'] === 'cad_contruction') {
 
   $img = $dados['construction']['base64'];
   $name = $dados['construction']['name'];
@@ -90,12 +121,15 @@ if ($_GET['action'] === 'cad_contruction') {
 } else if ($_GET['action'] === 'list_standards') {
   echo $s_std->getDataStandard();
 
-} else if ($_GET['action'] === 'list_company') {
+} else if ($_GET['action'] === 'list_company') {   
   echo $s_company->getDataCompany();
 
 } else if ($_GET['action'] === 'list_tags') {
   echo $s_tag->getDataTag();
 
+}else if ($_GET['action'] === 'conect') {
+    $res = http_response_code(200);
+    echo json_encode($res);
 } else {
   echo json_encode("invalid action");
 }

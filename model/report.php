@@ -101,9 +101,9 @@ class DataReport extends Conn
 
      public function selectStatus(ControllerReport $report)
      {
-          $query = "SELECT tb_reports.status_rpt from tb_reports inner join
-       tb_constructions on (tb_constructions.id_cts = tb_reports.id_fk_cts) 
-       where tb_reports.id_fk_cts = :id";
+       $query = "SELECT tb_reports.status_rpt as status from tb_reports inner join
+       tb_constructions on (tb_constructions.id_cts = tb_reports.id_fk_cons) 
+       where tb_reports.id_fk_cons = :id";
 
           $sql = $this->pdo->prepare($query);
 
@@ -111,12 +111,18 @@ class DataReport extends Conn
           $sql->execute();
 
           if ($sql->rowCount() > 0) {
+
                $status = $sql->fetch();
-               $report->setMsg($status['status_rpt']);
-               return true;
+               $report->setMsg($status['status']);
+
+              // return true;
+
           } else {
+
                $report->setMsg("not found");
-               return false;
+
+              // return false;
+
           }
      }
 

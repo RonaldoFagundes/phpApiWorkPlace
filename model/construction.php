@@ -55,7 +55,7 @@ class DataConstruction extends Conn
                $constructions->setListConstructions($list_constructions);
                return true;
           } else {
-               $constructions->setMsg("error listConstructions");
+               $constructions->setMsg("not found");
                return false;
           }
      }

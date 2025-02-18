@@ -18,26 +18,25 @@ class DataCompany extends Conn
 
      public function insertCompany(ControllerCompany $company)
      {
-          $query = " INSERT INTO tb_company (name_com, address_com, postal_cod_com, state_com , country_com, phone_com, web_site_com, logo_img_com, icon_img_com ,img_com )
-                                       VALUES( :name, :address, :postal, :state, :contry, :phone, :web, :logo, :icon, :img  ) ";
+       $query = "INSERT INTO tb_company (name_com, address_com, postal_cod_com, state_com , country_com, phone_com, web_site_com, logo_img_com, icon_img_com )
+                              VALUES( :name, :address, :postal, :state, :country, :phone, :web, :logo, :icon ) ";
           $sql = $this->pdo->prepare($query);
           $sql->bindValue(":name", $company->getName());
           $sql->bindValue(":address", $company->getAddress());
           $sql->bindValue(":postal", $company->getPostalcod());
           $sql->bindValue(":state", $company->getState());
-          $sql->bindValue(":contry", $company->getCountry());
+          $sql->bindValue(":country", $company->getCountry());
           $sql->bindValue(":phone", $company->getPhone());
           $sql->bindValue(":web", $company->getWebsite());
           $sql->bindValue(":logo", $company->getLogo());
           $sql->bindValue(":icon", $company->getIcon());
-          $sql->bindValue(":img", $company->getImg());
+          
           if ($sql->execute()) {
-               $company->setMsg(" Company " . $company->getName() . " cadastrada com sucesso ");
-               return true;
+               $company->setMsg(" Company " . $company->getName() . " cadastrada com sucesso ");               
           } else {
-               $company->setMsg("error  insertCompany");
-               return false;
+               $company->setMsg("error");              
           }
+
      }
 
 

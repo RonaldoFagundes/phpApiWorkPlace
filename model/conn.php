@@ -1,34 +1,34 @@
 <?php
 
-class Conn
-{
+require_once './credencials.php';
 
+class Conn 
+{ 
   private $host;
   private $user;
   private $password;
   private $db;
 
-
   public function pdo()
-  {
-    $this->host = "localhost";
-    $this->user = "rfactory";
-    $this->password = "faC*rF_71";
-    $this->db = "db_rf_ideia";
+  { 
+    $crd = new Credencials();
+    $this->host = $crd->getHost();
+    $this->user = $crd->getUser();
+    $this->password = $crd->getPassword();
+    $this->db =  $crd->getDb();
     
     try {
-      $pdo = new PDO(
+      $pdo = new PDO(         
         "mysql:host=$this->host;dbname=$this->db",
         $this->user,
-        $this->password,
+        $this->password,   
         array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8")
       );
       return $pdo;
-
     } catch (PDOException $e) {
       echo 'ERROR: ' . $e->getMessage();
     }
-
   }
+
 
 }

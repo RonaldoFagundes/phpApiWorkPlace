@@ -5,44 +5,58 @@ include_once 'model/tag.php';
 
  class serviceTag
 {  
-   function __construct(){}
 
-  public function sendDataTag($status, $desc, $img)
+  private $c_tags ;
+  private $m_tags;
+
+   function __construct(){
+    $this->c_tags = new ControllerTags();
+    $this->m_tags = new DataTag();
+   }
+
+
+
+
+  public function sendDataTag($data)
   {
-      $c_tags = new ControllerTags();
-      $m_tags = new DataTag();
-    
-      $c_tags->setStatus($status);
-      $c_tags->setDesc($desc);
-      $c_tags->setImg($img);          
+     // $c_tags = new ControllerTags();
+     // $m_tags = new DataTag();
+       
+      $this->c_tags->setStatus($data['tags']['status']);
+      $this->c_tags->setDesc($data['tags']['desc']);
+      $this->c_tags->setImg($data['tags']['base_64_img']);          
 
-      if ($m_tags->insertTags($c_tags)) {
-          http_response_code(200);
-          $result = json_encode($c_tags->getMsg());
-      } else {
-          http_response_code(200);
-          $result = json_encode($c_tags->getMsg());
-      }
-      return $result;
+      $this->m_tags->insertTags($this->c_tags);
+      //http_response_code(200);
+      return json_encode($this->c_tags->getMsg());     
   }
 
   
 
+
+
     public function getDataTag()
-    {
-        $c_tags = new ControllerTags();
-        $m_tags = new DataTag();
-        $m_tags->listTags($c_tags);
-  
-        if ($list_tags = $c_tags->getListTags()) {
+    {   
+
+       if($this->m_tags->listTags($this->c_tags)){
+            
+          $list_tags = $this->c_tags->getListTags();           
           http_response_code(200);
           $result = json_encode($list_tags);
-        } else {
+
+       }else{
+
           http_response_code(200);
-          $result = json_encode($c_tags->getMsg());
-        }
+          $result = json_encode($this->c_tags->getMsg());
+
+       }
+
         return $result;
     }
+
+
+
+
 
 
     public function getDataImgTag($value)
@@ -62,6 +76,8 @@ include_once 'model/tag.php';
         }
         return $result;
     }
+
+
 
 
     
